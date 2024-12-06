@@ -4,7 +4,7 @@ function SearchBar() {
   const [searchInput, setSearchInput] = useState("");
   const [items, setItems] = useState([]);
   const [error, setError] = useState("");
-  const [results, setResults] = useState([]); // Added results state
+  const [results, setResults] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -18,6 +18,12 @@ function NavBar() {
       </div>
       <div className="flex justify-end space-x-4">
         <Link
+          to="/signup"
+          className="bg-white text-black py-2 px-6 rounded-full hover:bg-gray-200"
+        >
+          Sign Up
+        </Link>
+        <Link
           to={isAdmin ? "/" : "/admin"}
           className="bg-white text-black py-2 px-6 rounded-full hover:bg-gray-200"
         >
