@@ -6,6 +6,7 @@ import ApiTest from "./components/ApiTest";
 import AdminMode from "./pages/AdminMode";
 import AdminCreate from "./pages/AdminCreate";
 import AdminManage from "./pages/AdminManage";
+import SignupForm from "./components/login/SignupForm"; // Add import
 
 function App() {
   return (
@@ -37,6 +38,14 @@ function App() {
             <Route path="/admin" element={<AdminMode />} />
             <Route path="/admin/create" element={<AdminCreate />} />
             <Route path="/admin/manage" element={<AdminManage />} />
+            <Route
+              path="/signup"
+              element={
+                <div className="w-1/3">
+                  <SignupForm />
+                </div>
+              }
+            />
           </Routes>
         </main>
       </Router>
