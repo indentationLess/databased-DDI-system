@@ -9,6 +9,7 @@ build/
 .env.test.local
 .env.production.local
 coverage/
+.vite/
 
 # Logs
 logs
