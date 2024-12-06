@@ -17,7 +17,7 @@ const AdminManage = () => {
           <tbody>
             <tr>
               <td className="border p-2 text-center">1</td>
-              <td className="border p-2 text-center">please send help</td>
+              <td className="border p-2 text-center">Panadol</td>
               <td className="border p-2 text-center">
                 <button className="bg-blue-500 text-white px-2 py-1 rounded mr-2">
                   Edit
