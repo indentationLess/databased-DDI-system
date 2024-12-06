@@ -174,6 +174,64 @@ FROM MedicationLog m
 JOIN PatientProfile p ON m.PatientID = p.PatientID
 JOIN Drug d ON m.DrugID = d.DrugID;
 
+INSERT INTO DrugCategory (DrugCategoryID, CategoryName, Description)
+VALUES
+(4, 'Antidepressants', 'Drugs to silence the voices'),
+(5, 'Antihistamines', 'Drugs to relieve allergy symptoms');
+
+
+INSERT INTO Drug (DrugID, Name, GenericName, BrandName, DosageForm, Strength, DrugCategoryID)
+VALUES
+(4, 'Sertraline', 'Sertraline', 'Zoloft', 'Tablet', '50mg', 4),
+(5, 'Cetirizine', 'Cetirizine', 'Zyrtec', 'Tablet', '10mg', 5),
+(6, 'Doxycycline', 'Doxycycline', 'Vibramycin', 'Capsule', '100mg', 1),
+(7, 'Aspirin', 'Acetylsalicylic Acid', 'Aspirin', 'Tablet', '325mg', 3),
+(8, 'Loratadine', 'Loratadine', 'Claritin', 'Tablet', '10mg', 5),
+(9, 'Clindamycin', 'Clindamycin', 'Cleocin', 'Capsule', '300mg', 1),
+(10, 'Fluoxetine', 'Fluoxetine', 'Prozac', 'Capsule', '20mg', 4);
+
+INSERT INTO SeverityLevel (SeverityLevelID, LevelName, Description)
+VALUES
+(4, 'Life-threatening', 'Interaction that may result in death or permanent harm');
+
+INSERT INTO ClinicalRecommendation (ClinicalRecommendationID, RecommendationText)
+VALUES
+(4, 'Administer under strict supervision in a hospital setting.');
+
+INSERT INTO Interaction (InteractionID, DrugID1, DrugID2, SeverityLevelID, ClinicalRecommendationID, Description)
+VALUES
+(4, 4, 5, 1, 3, 'Mild interaction between Sertraline and Cetirizine.'),
+(5, 6, 9, 2, 1, 'Moderate interaction between Doxycycline and Clindamycin.'),
+(6, 7, 10, 4, 4, 'Life-threatening interaction between Aspirin and Fluoxetine.');
+
+SELECT * FROM UserAccount;
+
+
+INSERT INTO UserAccount (UserAccountID, Username, PasswordHash, UserType, LastLogin)
+VALUES
+(101, 'alice_smith', 'hash_password_101', 'Patient', '2024-12-01 10:00:00'),
+(102, 'bob_johnson', 'hash_password_102', 'Patient', '2024-12-02 11:00:00'),
+(103, 'charlie_brown', 'hash_password_103', 'Patient', '2024-12-03 12:00:00'),
+(104, 'daisy_miller', 'hash_password_104', 'Patient', '2024-12-04 13:00:00');
+
+INSERT INTO PatientProfile (PatientID, UserAccountID, FirstName, LastName, DateOfBirth, PhoneNumbers, Emails)
+VALUES
+(1, 101, 'Alice', 'Smith', '1990-01-15', '1234567890', 'alice@example.com'),
+(2, 102, 'Bob', 'Johnson', '1985-06-20', '9876543210', 'bob@example.com'),
+(3, 103, 'Charlie', 'Brown', '2000-03-10', '4567891230', 'charlie@example.com'),
+(4, 104, 'Daisy', 'Miller', '1995-09-25', '3216549870', 'daisy@example.com');
+
+
+INSERT INTO MedicationLog (MedicationLogID, PatientID, DrugID, Dosage, StartDate, EndDate, Notes)
+VALUES
+(1, 1, 1, '500mg', '2024-12-01', '2024-12-10', 'Prescribed for bacterial infection'),
+(2, 2, 2, '500mg', '2024-12-02', '2024-12-12', 'Taken to reduce fever'),
+(3, 3, 3, '200mg', '2024-12-03', '2024-12-13', 'Pain relief for migraines'),
+(4, 4, 4, '50mg', '2024-12-04', '2024-12-14', 'Prescribed for anxiety management.');
+
+
+
+
 
 
 
