@@ -24,6 +24,12 @@ function App() {
               element={
                 <div className="w-1/3">
                   <SearchBar />
+                  <h2>How to use:</h2>
+                  <p>
+                    - Add items to search by typing the name of the medicine in
+                    the search bar and press enter.
+                  </p>
+                  <p>- Press the search button to get the results.</p>
                 </div>
               }
             />
