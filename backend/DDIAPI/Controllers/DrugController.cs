@@ -39,13 +39,10 @@ public class DrugController : Controller {
 [Route("api/Drug/Create")]
 public async Task<IActionResult> Create(Drug drug)
 {
-    if (ModelState.IsValid)
-    {
         _context.drugs.Add(drug);
         await _context.SaveChangesAsync();
         return Ok(drug);
-    }
-    return BadRequest(ModelState);
+    
 }
     // POST: Drug/Edit/5
     [HttpPut]

@@ -15,14 +15,33 @@ public class DDIAPIContext : DbContext {
     public DbSet<MedicationLogs> medicationLogs {get; set;} = null!;
     public DbSet<HealthCareProvider> healthCareProviders {get; set;} = null!;
     public DbSet<Patient> patients {get; set;} = null!;
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-{
-    modelBuilder.Entity<Drug>()
-        .HasOne(d => d.drugCategory)
-        .WithMany(dc => dc.drugs)
-        .HasForeignKey(d => d.DrugCategoryId);
 
+   protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Drug>()
+            .HasOne(d => d.drugCategory)
+            .WithMany(dc => dc.drugs)
+            .HasForeignKey(d => d.DrugCategoryId);
 
-}
+        modelBuilder.Entity<Interaction>()
+            .HasKey(i => new { i.Drug1Id, i.Drug2Id });
 
+        modelBuilder.Entity<Interaction>()
+            .HasOne(i => i.Severity)
+            .WithMany(s => s.Interactions)
+            .HasForeignKey(i => i.SeverityId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Interaction>()
+            .HasOne(i => i.Drug1)
+            .WithMany(d => d.InteractionsAsDrug1)
+            .HasForeignKey(i => i.Drug1Id)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Interaction>()
+            .HasOne(i => i.Drug2)
+            .WithMany(d => d.InteractionsAsDrug2)
+            .HasForeignKey(i => i.Drug2Id)
+            .OnDelete(DeleteBehavior.NoAction);
+    }
 }

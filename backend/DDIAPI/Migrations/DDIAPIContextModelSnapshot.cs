@@ -114,16 +114,18 @@ namespace DDIAPI.Migrations
 
             modelBuilder.Entity("DDIAPI.Models.Interaction", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("Drug1Id")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("SeverityId")
+                    b.Property<int>("Drug2Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("SeverityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Drug1Id", "Drug2Id");
+
+                    b.HasIndex("Drug2Id");
 
                     b.HasIndex("SeverityId");
 
@@ -234,9 +236,29 @@ namespace DDIAPI.Migrations
 
             modelBuilder.Entity("DDIAPI.Models.Interaction", b =>
                 {
-                    b.HasOne("DDIAPI.Models.Severity", null)
+                    b.HasOne("DDIAPI.Models.Drug", "Drug1")
+                        .WithMany("InteractionsAsDrug1")
+                        .HasForeignKey("Drug1Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("DDIAPI.Models.Drug", "Drug2")
+                        .WithMany("InteractionsAsDrug2")
+                        .HasForeignKey("Drug2Id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("DDIAPI.Models.Severity", "Severity")
                         .WithMany("Interactions")
-                        .HasForeignKey("SeverityId");
+                        .HasForeignKey("SeverityId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Drug1");
+
+                    b.Navigation("Drug2");
+
+                    b.Navigation("Severity");
                 });
 
             modelBuilder.Entity("DDIAPI.Models.MedicationLogs", b =>
@@ -248,6 +270,13 @@ namespace DDIAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("drug");
+                });
+
+            modelBuilder.Entity("DDIAPI.Models.Drug", b =>
+                {
+                    b.Navigation("InteractionsAsDrug1");
+
+                    b.Navigation("InteractionsAsDrug2");
                 });
 
             modelBuilder.Entity("DDIAPI.Models.DrugCategory", b =>

@@ -11,8 +11,8 @@ public class Drug {
     [ForeignKey("DrugCategoryId")]
 
     public  int DrugCategoryId {get; set;}
-    // public ICollection<Interaction> InteractionsAsDrug1 { get; set; }
-    // public ICollection<Interaction> InteractionsAsDrug2 { get; set; }
+    public ICollection<Interaction> InteractionsAsDrug1 { get; set; }
+    public ICollection<Interaction> InteractionsAsDrug2 { get; set; }
     public DrugCategory drugCategory {get; set;}
 
 }
