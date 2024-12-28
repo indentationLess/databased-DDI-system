@@ -3,34 +3,34 @@ import { useState } from "react";
 function SignupForm() {
   const [userType, setUserType] = useState("user");
   const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState({
-    street: "",
-    city: "",
-    state: "",
-    zipCode: "",
-  });
   const [specialty, setSpecialty] = useState("");
 
-  const handleAddressChange = (e) => {
-    setAddress({ ...address, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted!");
-    console.log("User Type:", userType);
-    console.log("First Name:", firstName);
-    console.log("Middle Name:", middleName);
-    console.log("Last Name:", lastName);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Address:", address);
-    if (userType === "admin") {
-      console.log("Specialty:", specialty);
+    const formData = {
+      userType,
+      firstName,
+      lastName,
+      email,
+      password,
+      specialty: userType === "admin" ? specialty : undefined,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5174/api/Patient/Create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      console.log("Form submitted successfully:", data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -77,65 +77,11 @@ function SignupForm() {
             />
           </div>
           <div>
-            <label className="block text-gray-700 mb-1">Middle Name</label>
-            <input
-              type="text"
-              value={middleName}
-              onChange={(e) => setMiddleName(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-          <div>
             <label className="block text-gray-700 mb-1">Last Name</label>
             <input
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 mb-1">Street Address</label>
-            <input
-              type="text"
-              name="street"
-              value={address.street}
-              onChange={handleAddressChange}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 mb-1">City</label>
-            <input
-              type="text"
-              name="city"
-              value={address.city}
-              onChange={handleAddressChange}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 mb-1">State</label>
-            <input
-              type="text"
-              name="state"
-              value={address.state}
-              onChange={handleAddressChange}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 mb-1">Zip Code</label>
-            <input
-              type="text"
-              name="zipCode"
-              value={address.zipCode}
-              onChange={handleAddressChange}
               className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
             />
