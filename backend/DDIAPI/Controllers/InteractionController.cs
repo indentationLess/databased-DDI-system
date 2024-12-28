@@ -14,20 +14,21 @@ namespace DDIAPI.Controllers
     {
         private readonly DDIAPIContext _context;
 
-    public InteractionController(DDIAPIContext context) {
-        _context = context;
-    }
+        public InteractionController(DDIAPIContext context)
+        {
+            _context = context;
+        }
 
-        // GET: api/Interaction/Check?drug1Id=1&drug2Id=2
-        [HttpGet()]
+        // POST: api/Interaction/Check
+        [HttpPost]
         [Route("api/Interaction/Check")]
-        public async Task<IActionResult> CheckInteraction(int drug1Id, int drug2Id)
+        public async Task<IActionResult> CheckInteraction([FromBody] InteractionRequest request)
         {
             var interaction = await _context.interactions
                 .Include(i => i.Drug1)
                 .Include(i => i.Drug2)
                 .Include(i => i.Severity)
-                .FirstOrDefaultAsync(i => i.Drug1Id == drug1Id && i.Drug2Id == drug2Id);
+                .FirstOrDefaultAsync(i => i.Drug1Id == request.Drug1Id && i.Drug2Id == request.Drug2Id);
 
             if (interaction == null)
             {
@@ -36,5 +37,11 @@ namespace DDIAPI.Controllers
 
             return new JsonResult(interaction);
         }
+    }
+
+    public class InteractionRequest
+    {
+        public int Drug1Id { get; set; }
+        public int Drug2Id { get; set; }
     }
 }

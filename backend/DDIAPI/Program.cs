@@ -18,7 +18,8 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("http://localhost:5173") // Adjust the URL to match your frontend's URL
                    .AllowAnyHeader()
-                   .AllowAnyMethod();
+                   .AllowAnyMethod()
+                   .AllowCredentials(); // Allow credentials
         });
 });
 
