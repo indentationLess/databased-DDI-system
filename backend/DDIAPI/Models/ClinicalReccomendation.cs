@@ -1,5 +1,5 @@
 namespace DDIAPI.Models;
 public class ClinicalRecommendation {
-    int id {get; set;}
-    string? Reccomendation {get; set;}
+    public int id {get; set;}
+    public string? Reccomendation {get; set;}
 }

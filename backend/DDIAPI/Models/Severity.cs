@@ -1,7 +1,7 @@
 namespace DDIAPI.Models;
 public class Severity {
-    int id {get; set;}
-    string? LevelName {get; set;}
-    string? LevelDescription {get; set;}
+    public int id {get; set;}
+    public string? LevelName {get; set;}
+    public string? LevelDescription {get; set;}
 
 }

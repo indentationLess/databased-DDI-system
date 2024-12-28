@@ -1,11 +1,11 @@
 namespace DDIAPI.Models;
 public class Drug {
-    int Id {get; set;}
-    string? DrugName {get; set;}
-    string? GenericDrugName {get; set;}
-    string? BrandName {get; set;}
-    string? DosageForm {get; set;}
-    string? Strength {get; set;}
-    public int DrugCategoryId {get; set;}
+    public int Id {get; set;}
+    public string? DrugName {get; set;}
+    public string? GenericDrugName {get; set;}
+    public string? BrandName {get; set;}
+    public string? DosageForm {get; set;}
+    public string? Strength {get; set;}
+    public  int DrugCategoryId {get; set;}
     public DrugCategory drugCategory {get; set;}
 }

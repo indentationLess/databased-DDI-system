@@ -1,7 +1,7 @@
 namespace DDIAPI.Models;
 public class DrugCategory {
-    int Id {get; set;}
-    string? CategoryName {get; set;}
-    string? Description {get; set;}
-    public ICollection<Drug> drugs {get;}
+    public int Id {get; set;}
+    public string? CategoryName {get; set;}
+    public string? Description {get; set;}
+    public virtual ICollection<Drug> drugs {get;}
 }
