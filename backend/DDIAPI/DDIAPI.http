@@ -1,0 +1,6 @@
+@DDIAPI_HostAddress = http://localhost:5174
+
+GET {{DDIAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
