@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DDIAPIContext>(opt => opt.UseSqlServer("Server=localhost,1433;Database=master;User Id=sa;Password=YourPassword123;TrustServerCertificate=True;"));
+builder.Services.AddDbContext<DDIAPIContext>(opt => opt.UseSqlServer("Server=localhost,1433;Database=DDI;User Id=sa;Password=YourPassword123;TrustServerCertificate=True;"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,12 +1,13 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DDIAPI.Models;
 public class Interaction {
-    public int id {get; set;}
-    public int drug1ID {get; set;}
-    public int drug2ID {get; set;}
-    public virtual ICollection<Drug> drugs {get; set;}
-    public int severityId {get; set;}
-    public Severity severity {get; set;}
-    public int clinicalRecommendationId {get; set;}
-    public ClinicalRecommendation clinicalRecommendation {get; set;}
-    public string? Description {get; set;}
+
+public int Id { get; set; }
+    // public int Drug1Id { get; set; }
+    // public int Drug2Id { get; set; }
+    // public int SeverityId { get; set; }
+    // public Drug Drug1 { get; set; }
+    // public Drug Drug2 { get; set; }
+    // public Severity Severity { get; set; }
 }

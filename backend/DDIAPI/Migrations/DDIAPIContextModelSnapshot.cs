@@ -61,17 +61,12 @@ namespace DDIAPI.Migrations
                     b.Property<string>("GenericDrugName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Interactionid")
-                        .HasColumnType("int");
-
                     b.Property<string>("Strength")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DrugCategoryId");
-
-                    b.HasIndex("Interactionid");
 
                     b.ToTable("drugs");
                 });
@@ -112,44 +107,25 @@ namespace DDIAPI.Migrations
                     b.Property<string>("Speciality")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("healthCareProviders");
                 });
 
             modelBuilder.Entity("DDIAPI.Models.Interaction", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("clinicalRecommendationId")
+                    b.Property<int?>("SeverityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("drug1ID")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.Property<int>("drug2ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("severityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("clinicalRecommendationId");
-
-                    b.HasIndex("severityId");
+                    b.HasIndex("SeverityId");
 
                     b.ToTable("interactions");
                 });
@@ -184,21 +160,44 @@ namespace DDIAPI.Migrations
                     b.ToTable("medicationLogs");
                 });
 
-            modelBuilder.Entity("DDIAPI.Models.Severity", b =>
+            modelBuilder.Entity("DDIAPI.Models.Patient", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("LevelDescription")
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LevelName")
+                    b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("patients");
+                });
+
+            modelBuilder.Entity("DDIAPI.Models.Severity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Level")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("severities");
                 });
@@ -214,42 +213,12 @@ namespace DDIAPI.Migrations
                     b.Property<DateTime>("dateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("interactionID")
-                        .HasColumnType("int");
-
                     b.Property<string>("message")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
-                    b.HasIndex("interactionID");
-
                     b.ToTable("systemAlerts");
-                });
-
-            modelBuilder.Entity("DDIAPI.Models.User", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("DDIAPI.Models.Drug", b =>
@@ -260,41 +229,14 @@ namespace DDIAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DDIAPI.Models.Interaction", null)
-                        .WithMany("drugs")
-                        .HasForeignKey("Interactionid");
-
                     b.Navigation("drugCategory");
-                });
-
-            modelBuilder.Entity("DDIAPI.Models.HealthCareProvider", b =>
-                {
-                    b.HasOne("DDIAPI.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DDIAPI.Models.Interaction", b =>
                 {
-                    b.HasOne("DDIAPI.Models.ClinicalRecommendation", "clinicalRecommendation")
-                        .WithMany()
-                        .HasForeignKey("clinicalRecommendationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DDIAPI.Models.Severity", "severity")
-                        .WithMany()
-                        .HasForeignKey("severityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("clinicalRecommendation");
-
-                    b.Navigation("severity");
+                    b.HasOne("DDIAPI.Models.Severity", null)
+                        .WithMany("Interactions")
+                        .HasForeignKey("SeverityId");
                 });
 
             modelBuilder.Entity("DDIAPI.Models.MedicationLogs", b =>
@@ -308,25 +250,14 @@ namespace DDIAPI.Migrations
                     b.Navigation("drug");
                 });
 
-            modelBuilder.Entity("DDIAPI.Models.SystemAlert", b =>
-                {
-                    b.HasOne("DDIAPI.Models.Interaction", "interaction")
-                        .WithMany()
-                        .HasForeignKey("interactionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("interaction");
-                });
-
             modelBuilder.Entity("DDIAPI.Models.DrugCategory", b =>
                 {
                     b.Navigation("drugs");
                 });
 
-            modelBuilder.Entity("DDIAPI.Models.Interaction", b =>
+            modelBuilder.Entity("DDIAPI.Models.Severity", b =>
                 {
-                    b.Navigation("drugs");
+                    b.Navigation("Interactions");
                 });
 #pragma warning restore 612, 618
         }
