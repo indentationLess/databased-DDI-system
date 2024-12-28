@@ -74,3 +74,5 @@ bld/
 *.njsproj
 *.sln
 *.sw?
+#Migrations
+backend/DDIAPI/Migrations/*
