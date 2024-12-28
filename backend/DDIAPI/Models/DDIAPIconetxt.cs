@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using DDIAPI.Models;
 using Microsoft.Extensions.Options;
 namespace DDIAPI.Models;
 public class DDIAPIContext : DbContext {
@@ -43,5 +42,10 @@ public class DDIAPIContext : DbContext {
             .WithMany(d => d.InteractionsAsDrug2)
             .HasForeignKey(i => i.Drug2Id)
             .OnDelete(DeleteBehavior.NoAction);
+         modelBuilder.Entity<Interaction>()
+                .HasOne(i => i.Drug2)
+                .WithMany(d => d.InteractionsAsDrug2)
+                .HasForeignKey(i => i.Drug2Id)
+                .OnDelete(DeleteBehavior.NoAction);
     }
 }

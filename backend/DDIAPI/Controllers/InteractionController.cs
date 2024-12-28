@@ -19,7 +19,7 @@ namespace DDIAPI.Controllers
     }
 
         // GET: api/Interaction/Check?drug1Id=1&drug2Id=2
-        [HttpGet("Check")]
+        [HttpGet()]
         [Route("api/Interaction/Check")]
         public async Task<IActionResult> CheckInteraction(int drug1Id, int drug2Id)
         {
@@ -34,7 +34,7 @@ namespace DDIAPI.Controllers
                 return NotFound(new { Message = "No interaction found between the specified drugs." });
             }
 
-            return Ok(interaction);
+            return new JsonResult(interaction);
         }
     }
 }
