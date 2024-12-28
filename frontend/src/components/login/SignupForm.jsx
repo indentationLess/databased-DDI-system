@@ -7,16 +7,27 @@ function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [specialty, setSpecialty] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    if (!firstName || !lastName || !email || !password) {
+      setError("All fields are required");
+      setLoading(false);
+      return;
+    }
+
     const formData = {
-      userType,
-      firstName,
-      lastName,
-      email,
-      password,
-      specialty: userType === "admin" ? specialty : undefined,
+      type: userType === "admin" ? "Provider" : "Patient",
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.trim().toLowerCase(),
+      password: password,
+      specialty: userType === "admin" ? specialty.trim() : null,
     };
 
     try {
@@ -26,11 +37,20 @@ function SignupForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        credentials: "include",
       });
+
+      if (!response.ok) {
+        throw new Error(`Registration failed: ${response.statusText}`);
+      }
+
       const data = await response.json();
-      console.log("Form submitted successfully:", data);
-    } catch (error) {
-      console.error("Error submitting form:", error);
+      console.log("Registration successful:", data);
+    } catch (err) {
+      setError(err.message || "Registration failed");
+      console.error("Registration error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,11 +142,16 @@ function SignupForm() {
           </div>
         </div>
 
+        {error && (
+          <div className="text-red-500 text-sm text-center mt-2">{error}</div>
+        )}
+
         <button
           type="submit"
-          className="mt-6 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
+          disabled={loading}
+          className="mt-6 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 disabled:bg-gray-400"
         >
-          Sign Up
+          {loading ? "Signing up..." : "Sign Up"}
         </button>
       </form>
     </div>
