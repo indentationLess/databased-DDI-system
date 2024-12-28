@@ -13,10 +13,14 @@ public class UserController : Controller {
     public UserController(DDIAPIContext context) {
         _context = context;
     }
-    // GET: User
+    // GET: api/User
+    [HttpGet]
+    [Route("api/User")]
     public async Task<IActionResult> Index() {
-        return View(await _context.users.ToListAsync());
+        return Json(await _context.users.ToListAsync());
     }
+    [HttpGet]
+    [Route("api/User/{id}")]
     // GET: User/Details/5
     public async Task<IActionResult> Details(int? id) {
         if (id == null) {
@@ -27,42 +31,24 @@ public class UserController : Controller {
         if (user == null) {
             return NotFound();
         }
-        return View(user);
-    }
-    // GET: User/Create
-    public IActionResult Create() {
-        return View();
+        return Json(user);
     }
     // POST: User/Create
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("id,firstName,lastName,email,phone,role,username,password")] User user) {
-        if (ModelState.IsValid) {
-            _context.Add(user);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-        return View(user);
-    }
-    // GET: User/Edit/5
-    public async Task<IActionResult> Edit(int? id) {
-        if (id == null) {
-            return NotFound();
-        }
-        var user = await _context.users.FindAsync(id);
-        if (user == null) {
-            return NotFound();
-        }
-        return View(user);
+    [Route("api/User/Create")]
+    public async Task<IActionResult> Create( User user) {
+         _context.Add(user);
+        await _context.SaveChangesAsync();
+        
+        return Json(user);
     }
     // POST: User/Edit/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("id,firstName,lastName,email,phone,role,username,password")] User user) {
+    [HttpPut]
+    [Route("api/User/Edit/{id}")]
+    public async Task<IActionResult> Edit(int id, User user) {
         if (id != user.id) {
             return NotFound();
         }
-        if (ModelState.IsValid) {
             try {
                 _context.Update(user);
                 await _context.SaveChangesAsync();
@@ -73,20 +59,27 @@ public class UserController : Controller {
                     throw;
                 }
             }
-            return RedirectToAction(nameof(Index));
-        }
-        return View(user);
+        return Json(user);
     }
     private bool UserExists(int id) {
         return _context.users.Any(e => e.id == id);
     }
     // GET: User/Delete/5
+    [HttpDelete]
+    [Route("api/User/Delete/{id}")]
     public async Task<IActionResult> Delete(int? id) {
-        if (id == null) {
-            return NotFound();
-        }
-        var user = await _context.users
-            .FirstOrDefaultAsync(m => m.id == id);
-            return View(user);
+    if (id == null) {
+        return NotFound();
+    }
+
+    var user = await _context.users.FirstOrDefaultAsync(m => m.id == id);
+    if (user == null) {
+        return NotFound();
+    }
+
+    _context.users.Remove(user);
+    await _context.SaveChangesAsync();
+
+    return NoContent();
     }
 }

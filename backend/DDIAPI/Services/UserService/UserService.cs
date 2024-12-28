@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using DDIAPI.Models;
 
 namespace DDIAPI.Services; 
-    public class UserService : IUserService {
+    // public class UserService : IUserService {
     //     public User? Authenticate(string username, string password) {
     //         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) {
     //             return null;
@@ -24,4 +24,4 @@ namespace DDIAPI.Services;
     //         return true;
     //     }
     // }
-}
+// }
